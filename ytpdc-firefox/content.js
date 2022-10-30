@@ -88,8 +88,8 @@ function getPlaylistLength(pageType) {
   let playlistLength = 0;
 
   if (pageType === 'overview') {
-    let tag = '#stats.style-scope.ytd-playlist-sidebar-primary-info-renderer';
-    playlistLength = document.querySelector(tag).children[0].innerText;
+    let tag = 'div.metadata-stats';
+    playlistLength = document.querySelector(tag).innerText;
     playlistLength = playlistLength.split(' ')[0];
     playlistLength = playlistLength.replace(/\,+/, '');
   }
@@ -103,7 +103,7 @@ function createDurationElement(videos) {
   let durationElement = document.createElement('div');
   durationElement.className = 'playlistTotalDuration';
   durationElement.style.fontSize = '1.6rem';
-  durationElement.style.fontWeight = 500;
+  //durationElement.style.fontWeight = 500;
 
   let isDarkMode = document.documentElement.getAttribute('dark');
 
@@ -112,6 +112,8 @@ function createDurationElement(videos) {
   } else {
     durationElement.style.color = 'red';
   }
+
+  parentElement.style['max-height'] = '10rem';
 
   durationElement.textContent = `Playlist Duration (1-${
     videos.length
@@ -154,19 +156,5 @@ function startPlaylistObserver() {
 }
 
 function getPlaylistParentElement() {
-  let userPlaylist = document.querySelector('#title-form');
-  let parentElementTag = '';
-
-  if (userPlaylist) {
-    parentElementTag = '#stats';
-  } else {
-    let stats = document.querySelector('#stats');
-    let previousTotalDuration = stats.querySelector('.playlistTotalDuration');
-    if (previousTotalDuration) stats.removeChild(previousTotalDuration);
-
-    parentElementTag =
-      '#title.style-scope.ytd-playlist-sidebar-primary-info-renderer';
-  }
-
-  return document.querySelector(parentElementTag);
+  return document.querySelector('div.metadata-stats');
 }
